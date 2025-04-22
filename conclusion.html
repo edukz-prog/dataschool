@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Қорытынды және Сертификат - Big Data және сен</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f9c5d1, #fbc2eb);
+            background-attachment: fixed;
+            color: #333;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        header.sticky {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #7b2cbf;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #7b2cbf;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .auth-button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #7b2cbf;
+            border: 1px solid #7b2cbf;
+        }
+
+        .register-btn {
+            background-color: #7b2cbf;
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 60px 0;
+        }
+
+        .conclusion-section {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #561c8b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.5rem;
+            color: #7b2cbf;
+            margin-bottom: 15px;
+        }
+
+        .section-text {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        /* Learned List Styles */
+        .learned-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .learned-item {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .learned-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .learned-icon {
+            font-size: 2rem;
+            color: #7b2cbf;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .learned-text {
+            font-size: 1rem;
+            color: #444;
+        }
+
+        /* Motivational Box */
+        .motivational-box {
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .motivational-title {
+            font-size: 1.5rem;
+            color: #452960;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .motivational-text {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .motivational-highlight {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: #561c8b;
+        }
+
+        /* Self-Assessment Table */
+        .assessment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .assessment-table th,
+        .assessment-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .assessment-table th {
+            background-color: #7b2cbf;
+            color: white;
+            font-weight: 600;
+        }
+
+        .assessment-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .assessment-table tr:hover {
+            background-color: #f8f2ff;
+        }
+
+        .check-mark {
+            color: #4CAF50;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .question-mark {
+            color: #FFC107;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Application Examples */
+        .application-examples {
+            margin: 30px 0;
+        }
+
+        .accordion {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+        }
+
+        .accordion-header {
+            background-color: #7b2cbf;
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content.active {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        .accordion-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .rotate {
+            transform: rotate(180deg);
+        }
+
+        /* Final Thought */
+        .final-thought {
+            background: linear-gradient(135deg, #8BC6EC, #9599E2);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .final-thought-text {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* Certificate Button */
+        .certificate-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .certificate-button {
+            background-color: #7b2cbf;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .certificate-button:hover {
+            background-color: #6a24a5;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(123, 44, 191, 0.3);
+        }
+
+        .certificate-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #452960;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #f8c9e0;
+        }
+
+        .footer-column p {
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #fbc2eb;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #5a3a7e;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: #fbc2eb;
+            color: #452960;
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .learned-list {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .nav-menu.show {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                z-index: 99;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .learned-list {
+                grid-template-columns: 1fr;
+            }
+
+            .assessment-table {
+                font-size: 0.9rem;
+            }
+
+            .assessment-table th,
+            .assessment-table td {
+                padding: 10px;
+            }
+
+            .final-thought-text {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">EduData School</a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html">Басты бет</a>
+                <a href="bigdata.html">Үлкен деректер ерекшеліктері</a>
+                <a href="secret.html">Қауіпсіздік және этика</a>
+                <a href="ml.html">ML</a>
+                <a href="conclusion.html">Қорытынды және сертификат</a>
+            </nav>
+            
+            <div class="auth-buttons">
+                <button class="auth-button login-btn">Кіру</button>
+                <button class="auth-button register-btn">Тіркелу</button>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 12H21" stroke="#333" stroke-width="2" stroke-linecap="round" />
+                    <path d="M3 6H21" stroke="#333" stroke-width="2" stroke-linecap="round" />
+                    <path d="M3 18H21" stroke="#333" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Conclusion Section -->
+            <section class="conclusion-section">
+                <h1 class="section-title">Үлкен деректер әлемінде алғашқы қадам жасалды!</h1>
+                
+                <h2 class="section-subtitle">Мақсаты</h2>
+                <p class="section-text">Оқушының Big Data тақырыбы бойынша алған білімін жинақтау, өзін-өзі бағалау мүмкіндігін беру және мотивация сыйлау.</p>
+                
+                <!-- Learned List -->
+                <h2 class="section-subtitle">Не үйрендік?</h2>
+                <div class="learned-list">
+                    <div class="learned-item">
+                        <div class="learned-icon">✅</div>
+                        <div class="learned-text">Үлкен деректер дегеніміз не екенін білдік</div>
+                    </div>
+                    <div class="learned-item">
+                        <div class="learned-icon">✅</div>
+                        <div class="learned-text">Big Data қайдан жиналатынын және қалай өңделетінін түсіндік</div>
+                    </div>
+                    <div class="learned-item">
+                        <div class="learned-icon">✅</div>
+                        <div class="learned-text">Машиналық оқытудың қалай жұмыс істейтінін көрдік</div>
+                    </div>
+                    <div class="learned-item">
+                        <div class="learned-icon">✅</div>
+                        <div class="learned-text">Дербес деректердің маңызын ұғындық</div>
+                    </div>
+                    <div class="learned-item">
+                        <div class="learned-icon">✅</div>
+                        <div class="learned-text">Big Data-ны мектепте қолдану мүмкіндігін ойладық</div>
+                    </div>
+                    <div class="learned-item">
+                        <div class="learned-icon">✅</div>
+                        <div class="learned-text">Этикалық шешімдер қабылдауды үйрендік</div>
+                    </div>
+                </div>
+                
+                <!-- Motivational Box -->
+                <div class="motivational-box">
+                    <h3 class="motivational-title">🎉 Құттықтаймыз!</h3>
+                    <p class="motivational-text">Сен Big Data әлемімен алғашқы таныстық жасап, заманауи білімнің жаңа деңгейіне қадам бастың. Енді сен тек қолданушы ғана емес, ақпаратты саналы түрде түсінетін, қауіпсіздікті сақтай алатын, дерекке сүйене отырып ойлайтын тұлғасың!</p>
+                    <span class="motivational-highlight">Болашақ мамандықтар — деректермен жұмыс істеуді талап етеді. Бұл білім сені үлкен мақсаттарға жетелей алады.</span>
+                </div>
+                
+                <!-- Self-Assessment Table -->
+                <h2 class="section-subtitle">Өзін-өзі бағалау кестесі</h2>
+                <table class="assessment-table">
+                    <thead>
+                        <tr>
+                            <th>Сұрақ</th>
+                            <th>✅ Иә</th>
+                            <th>❓ Әлі де үйренемін</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Big Data ұғымын түсіндім</td>
+                            <td class="check-mark">✔️</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Қайдан жиналатынын білемін</td>
+                            <td class="check-mark">✔️</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Этикалық жауапкершілік туралы ойландым</td>
+                            <td class="check-mark">✔️</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Кем дегенде 1 құралды есімде сақтадым (мысалы: Python, Hadoop)</td>
+                            <td class="check-mark">✔️</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Big Data-ны мектепте қалай қолдануға болатынын елестете аламын</td>
+                            <td class="check-mark">✔️</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <!-- Final Thought -->
+                <div class="final-thought">
+                    <p class="final-thought-text">Big Data – бұл болашақтың құралы емес, бүгінгі күннің шындығы. Сен оны байқамасаң да, ол сенің жаныңда жұмыс істеп жатыр!</p>
+                </div>
+                
+                <!-- Certificate Download -->
+                <div class="certificate-container">
+                    <button class="certificate-button">
+                        <span class="certificate-icon">🎓</span>
+                        «Big Data әлеміне алғашқы қадам» сертификатын жүктеу
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+  <!-- Footer -->
+<footer>
+    <div class="container footer-container">
+        <div class="footer-column">
+            <h3>EduData School</h3>
+            <p>Біз цифрлық дәуірдегі білім берудің жаңа стандарттарын белгілейміз.</p>
+            <p>Біздің миссиямыз - болашақтың цифрлық әлемінде сәтті болуға қажетті білім мен дағдыларды беру.</p>
+        </div>
+        <div class="footer-column">
+            <h3>Байланыстар</h3>
+            <p>Мекенжай: Астана қ., Қазақстан</p>
+            <p>Телефон: +7 (727) 123-45-67</p>
+            <p>Email: info@edudataschool.kz</p>
+        </div>
+        <div class="footer-column">
+            <h3>Сілтемелер</h3>
+            <ul class="footer-links">
+                <li><a href="index.html">Басты бет</a></li>
+                <li><a href="bigdata.html">Үлкен деректер ерекшеліктері</a></li>
+                <li><a href="secret.html">Қауіпсіздік және этика</a></li>
+                <li><a href="ml.html">ML</a></li>
+                <li><a href="conclusion.html">Қорытынды және сертификат</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom container">
+        <p>&copy; 2025 EduData School. Барлық құқықтар қорғалған.</p>
+    </div>
+</footer>
+<script>
+// Обработка кликов по заголовкам аккордеона
+document.addEventListener('DOMContentLoaded', function() {
+    // Найдем все заголовки аккордеона
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    
+    // Добавим обработчик события для каждого заголовка
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            // Находим содержимое этого аккордеона
+            const content = this.nextElementSibling;
+            
+            // Переключаем класс active для содержимого
+            content.classList.toggle('active');
+            
+            // Поворачиваем стрелку
+            const icon = this.querySelector('.accordion-icon');
+            icon.classList.toggle('rotate');
+        });
+    });
+    
+    // Обработчик для мобильного меню
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    
+    hamburger.addEventListener('click', function() {
+        navMenu.classList.toggle('show');
+    });
+    
+    // Сделаем шапку липкой при прокрутке
+    const header = document.getElementById('header');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 10) {
+            header.classList.add('sticky');
+        } else {
+            header.classList.remove('sticky');
+        }
+    });
+    
+    // Функция для имитации скачивания сертификата
+    const certificateButton = document.querySelector('.certificate-button');
+    
+    certificateButton.addEventListener('click', function() {
+        alert('Құттықтаймыз! Сертификатыңыз жүктеліп жатыр...');
+        // Здесь можно добавить реальную функцию загрузки файла
+    });
+});
+</script>
+</body>
+</html>

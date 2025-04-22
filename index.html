@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Орта мектепте білім беру үдерісінде үлкен деректерді қолдану әдістемесі</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f9c5d1, #fbc2eb);
+            background-attachment: fixed;
+            color: #333;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        header.sticky {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #7b2cbf;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #7b2cbf;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .auth-button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #7b2cbf;
+            border: 1px solid #7b2cbf;
+        }
+
+        .register-btn {
+            background-color: #7b2cbf;
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 60px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 500px;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #561c8b;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #444;
+            animation: fadeInUp 1.2s ease;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            animation: fadeInUp 1.4s ease;
+        }
+
+        .hero-button {
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .primary-btn {
+            background-color: white;
+            color: #7b2cbf;
+            border: 2px solid #7b2cbf;
+        }
+
+        .primary-btn:hover {
+            background-color: #f8f2ff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(123, 44, 191, 0.2);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-image img {
+            max-width: 70%;
+            height: auto;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 60px 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            margin: 20px auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            width: 95%;
+            max-width: 1140px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            color: #561c8b;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #7b2cbf;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .feature-description {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* News Section */
+        .news-section {
+            padding: 60px 0;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .news-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-date {
+            color: #7b2cbf;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .news-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .news-excerpt {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .news-link {
+            color: #7b2cbf;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .news-link:hover {
+            transform: translateX(5px);
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 60px 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            margin: 20px auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            width: 95%;
+            max-width: 1140px;
+        }
+
+        .testimonials-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .testimonial-slide {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            display: none;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-info {
+            text-align: left;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .author-position {
+            color: #7b2cbf;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .testimonial-dot.active {
+            background-color: #7b2cbf;
+        }
+
+        /* Partners Section */
+        .partners-section {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .partners-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .partner-logo {
+            max-width: 120px;
+            max-height: 60px;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #452960;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #f8c9e0;
+        }
+
+        .footer-column p {
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #fbc2eb;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #5a3a7e;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: #fbc2eb;
+            color: #452960;
+            transform: translateY(-5px);
+        }
+
+        .contact-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #7b2cbf;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #fbc2eb;
+            color: #452960;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #7b2cbf;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 99;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #6a24a5;
+            transform: translateY(-5px);
+        }
+
+        /* Feedback Button */
+        .feedback-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            padding: 12px 20px;
+            background-color: #7b2cbf;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            transition: all 0.3s;
+        }
+
+        .feedback-btn:hover {
+            background-color: #6a24a5;
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .hero-content {
+                padding-right: 0;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .nav-menu.show {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                z-index: 99;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .feedback-btn, .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .feedback-btn span {
+                display: none;
+            }
+        }
+
+        /* Modal styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    width: 90%;
+    max-width: 900px;
+    margin: 50px auto;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: slideIn 0.4s ease;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+    color: white;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.close-modal {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.close-modal:hover {
+    transform: scale(1.2);
+}
+
+.modal-body {
+    padding: 30px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Methodology Content Styles */
+.methodology-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.methodology-section {
+    display: flex;
+    gap: 20px;
+    background-color: #f9f4ff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(123, 44, 191, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.methodology-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(123, 44, 191, 0.15);
+}
+
+.section-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: rgba(123, 44, 191, 0.1);
+    padding: 15px;
+    border-radius: 12px;
+    height: 90px;
+    width: 90px;
+}
+
+.section-content {
+    flex: 1;
+}
+
+.section-content h3 {
+    color: #7b2cbf;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.subsection {
+    margin-bottom: 20px;
+}
+
+.subsection h4 {
+    color: #561c8b;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.subsection ul {
+    list-style-type: none;
+    padding-left: 5px;
+    margin: 0;
+}
+
+.subsection ul li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.subsection ul li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #7b2cbf;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.methodology-conclusion {
+    background: linear-gradient(135deg, #f9c5d1, #fbc2eb);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.methodology-conclusion h3 {
+    color: #561c8b;
+    margin-top: 0;
+    font-size: 1.6rem;
+}
+
+.methodology-conclusion p {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.start-course-btn {
+    background-color: #7b2cbf;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(123, 44, 191, 0.3);
+}
+
+.start-course-btn:hover {
+    background-color: #561c8b;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(123, 44, 191, 0.4);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .methodology-section {
+        flex-direction: column;
+    }
+    
+    .section-icon {
+        margin-bottom: 15px;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 30px auto;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">EduData School</a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html">Басты бет</a>
+                <a href="bigdata.html">Үлкен деректер ерекшеліктері</a>
+                <a href="secret.html">Қауіпсіздік және этика</a>
+                <a href="ml.html">ML</a>
+                <a href="conclusion.html">Қорытынды және сертификат</a>
+            </nav>
+            
+            <div class="auth-buttons">
+                <button class="auth-button login-btn">Кіру</button>
+                <button class="auth-button register-btn">Тіркелу</button>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 12H21" stroke="#333" stroke-width="2" stroke-linecap="round" />
+                    <path d="M3 6H21" stroke="#333" stroke-width="2" stroke-linecap="round" />
+                    <path d="M3 18H21" stroke="#333" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section container">
+        <div class="hero-content">
+            <h1 class="hero-title">Орта мектепте үлкен деректер — болашақтың білімі</h1>
+            <p class="hero-description">Бұл платформа — орта білім беру үдерісінде Big Data технологияларын тиімді қолдану бойынша әдістемелік, практикалық және зерттеу құралдарының жиынтығы.</p>
+            <div class="hero-buttons">
+                <button class="hero-button primary-btn">🔍 Қолданыстағы салалар</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="6.png" alt="Интерактивті мектеп сыныбы">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section container">
+        <h2 class="section-title">Негізгі бағыттар</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Деректерге негізделген оқыту</h3>
+                <p class="feature-description">Оқушылардың үлгерімі мен белсенділік деректерін талдау арқылы оқыту процесін оңтайландыру</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3 class="feature-title">Жеке траектория құру</h3>
+                <p class="feature-description">Әр оқушының қабілеттеріне қарай бейімделген оқу жолдарын жасау және ұсыну</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3 class="feature-title">Нәтижелерді аналитикалық бақылау</h3>
+                <p class="feature-description">Оқу процесінің тиімділігін үнемі талдап, жақсарту бойынша ұсыныстар беру</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">Мұғалімдерге арналған құралдар</h3>
+                <p class="feature-description">Педагогтарға арналған деректермен жұмыс істеу бойынша оңай қолданылатын құралдар жинағы</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="news-section container">
+        <h2 class="section-title">Жаңалықтар мен жаңартулар</h2>
+        <div class="news-grid">
+            <div class="news-card">
+                <img src="https://inbusiness.kz/uploads/46/images/srHA48DW.jpg" alt="Kundelik деректері" class="news-image">
+                <div class="news-content">
+                    <div class="news-date">15 Сәуір, 2025</div>
+                    <h3 class="news-title">Kundelik деректерімен жұмыс</h3>
+                    <p class="news-excerpt">Kundelik.kz жүйесіндегі оқушылардың үлгерім деректерін өңдеу мен талдау әдістері туралы жаңа мақала.</p>
+                    <a href="#" class="news-link">Толығырақ →</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <img src="https://vinsep.com/wp-content/uploads/2020/11/power-BI.png" alt="Power BI есептері" class="news-image">
+                <div class="news-content">
+                    <div class="news-date">10 Сәуір, 2025</div>
+                    <h3 class="news-title">Power BI арқылы мектеп есептері</h3>
+                    <p class="news-excerpt">Microsoft Power BI көмегімен мектеп деректерін визуализациялау және талдау бойынша вебинар.</p>
+                    <a href="#" class="news-link">Толығырақ →</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <img src="https://mxcc.edu/wp-content/uploads/2016/01/New-Course-Icon-01.png" alt="Жаңа курс" class="news-image">
+                <div class="news-content">
+                    <div class="news-date">5 Сәуір, 2025</div>
+                    <h3 class="news-title">Жаңа курс ашылды!</h3>
+                    <p class="news-excerpt">«Big Data негіздері: мұғалімдерге арналған қысқаша нұсқаулық» онлайн курсына тіркелу басталды.</p>
+                    <a href="#" class="news-link">Толығырақ →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section container">
+        <h2 class="section-title">Пайдаланушы пікірлері</h2>
+        <div class="testimonials-container">
+            <div class="testimonial-slide active">
+                <p class="testimonial-content">"Біздің мектепте Big Data құралдарын қолданғаннан кейін, оқушылардың үлгерімін бақылау мен болжау процесі айтарлықтай жеңілдеді. Енді біз әр оқушының қажеттіліктерін дәл анықтап, тиісті көмек бере аламыз."</p>
+                <div class="testimonial-author">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4086/4086577.png" alt="Аватар" class="author-avatar">
+                    <div class="author-info">
+                        <div class="author-name">Айгүл Қасымова</div>
+                        <div class="author-position">Директор, №134 мектеп</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-slide">
+                <p class="testimonial-content">"Деректермен жұмыс істеу алғашында қиын көрінгенімен, бұл платформа барлығын түсінікті етіп түсіндіреді. Енді мен өз сыныбымның прогресін нақты көріп, оқу бағдарламасын соған сәйкес ыңғайлай аламын."</p>
+                <div class="testimonial-author">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3048/3048124.png" alt="Аватар" class="author-avatar">
+                    <div class="author-info">
+                        <div class="author-name">Серік Жанатов</div>
+                        <div class="author-position">Математика мұғалімі, №27 гимназия</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-slide">
+                <p class="testimonial-content">"Бұл жүйе біздің колледждің аналитикалық мүмкіндіктерін жаңа деңгейге көтерді. Енді біз студенттердің тек қазіргі жетістіктерін ғана емес, болашақтағы мүмкіндіктерін де көре аламыз, бұл бізге бағдарламаларымызды тиімді етуге көмектеседі."</p>
+                <div class="testimonial-author">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3048/3048122.png" alt="Аватар" class="author-avatar">
+                    <div class="author-info">
+                        <div class="author-name">Дінмұхамед Әлиев</div>
+                        <div class="author-position">Оқу ісі жөніндегі директор, Политехникалық колледж</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-dots">
+                <div class="testimonial-dot active" data-index="0"></div>
+                <div class="testimonial-dot" data-index="1"></div>
+                <div class="testimonial-dot" data-index="2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-column">
+                <h3>Сайт туралы</h3>
+                <p>Біз мұғалімдер мен білім беру ұйымдарына заманауи деректер ғылымының мүмкіндіктерін қолжетімді етеміз.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                   </a>
+                   <a href="#" class="social-icon">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                           <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                       </svg>
+                   </a>
+                   <a href="#" class="social-icon">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                           <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                       </svg>
+                   </a>
+               </div>
+           </div>
+           
+           <div class="footer-column">
+               <h3>Жылдам сілтемелер</h3>
+               <ul class="footer-links">
+                <li><a href="index.html">Басты бет</a></li>
+                <li><a href="bigdata.html">Үлкен деректер ерекшеліктері</a></li>
+                <li><a href="secret.html">Қауіпсіздік және этика</a></li>
+                <li><a href="ml.html">ML</a></li>
+                <li><a href="conclusion.html">Қорытынды және сертификат</a></li>
+               </ul>
+           </div>
+           
+           <div class="footer-column">
+               h3>Байланыстар</h3>
+                <p>Мекенжай: Астана қ., Қазақстан</p>
+                <p>Телефон: +7 (727) 123-45-67</p>
+                <p>Email: info@edudataschool.kz</p>
+           </div>
+           
+           <div class="footer-column">
+               <h3>Хабарлама жіберу</h3>
+               <form class="contact-form">
+                   <div class="form-group">
+                       <input type="text" class="form-control" placeholder="Аты-жөніңіз">
+                   </div>
+                   <div class="form-group">
+                       <input type="email" class="form-control" placeholder="Email">
+                   </div>
+                   <div class="form-group">
+                       <textarea class="form-control" placeholder="Хабарлама"></textarea>
+                   </div>
+                   <button type="submit" class="submit-btn">Жіберу</button>
+               </form>
+           </div>
+       </div>
+       
+       <div class="footer-bottom container">
+           <p>© 2025 EduData School. Барлық құқықтар қорғалған.</p>
+       </div>
+   </footer>
+
+   <!-- Back to Top Button -->
+   <div class="back-to-top" id="back-to-top">
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+           <path d="M8 12a.5.5 0 0 1-.5-.5v-7.793L4.354 6.854a.5.5 0 1 1-.708-.708l4-4a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1-.708.708L8.5 3.707V11.5A.5.5 0 0 1 8 12z"/>
+       </svg>
+   </div>
+
+   <!-- Feedback Button -->
+   <button class="feedback-btn" id="feedback-btn">
+       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+           <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+       </svg>
+       <span>Пікір қалдыру</span>
+   </button>
+   <!-- Modal Overlay -->
+<div id="methodologyModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Үлкен деректер (Big Data) қолданылатын салалар</h2>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="methodology-container">
+                <!-- Section 1 -->
+                <div class="methodology-section">
+                    <div class="section-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 9.67a8.5 8.5 0 0 1-12 7.83 8.5 8.5 0 1 1 12-7.83z" stroke="#7b2cbf" stroke-width="1.5"/>
+                            <path d="M15 9.5a2.5 2.5 0 0 1-2.5 2.5 2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 2.5 2.5z" fill="#7b2cbf"/>
+                            <path d="M12.5 12v3M19.5 9.5h-4M12.5 7v-2M5.5 9.5h2" stroke="#7b2cbf" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="section-content">
+                        <h3>Онлайн платформалар мен мультимедиа</h3>
+                        <div class="subsection">
+                            <h4>Netflix / YouTube / TikTok</h4>
+                            <ul>
+                                <li>Қандай видеоны көру мүмкіндігің жоғары екенін <strong>алгоритм арқылы болжайды</strong></li>
+                                <li>Көру тарихы, іздеу, тоқтаған жер — бәрі есепке алынады</li>
+                                <li><strong>Жасанды интеллект:</strong> «Ұнайтын видеолар» тізімін жасап береді</li>
+                            </ul>
+                        </div>
+                        <div class="subsection">
+                            <h4>Google Search</h4>
+                            <ul>
+                                <li>Сен іздеген сөзге байланысты <strong>жарнаманы</strong> бейімдейді</li>
+                                <li>Геолокация, уақыт, жиілік бәрі ескеріледі</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="methodology-section">
+                    <div class="section-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 11v8h10v-8" stroke="#7b2cbf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3v12m0 0-3-3m3 3 3-3" stroke="#7b2cbf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3c3.5 0 7 1.5 7 5v2H5V8c0-3.5 3.5-5 7-5z" stroke="#7b2cbf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="section-content">
+                        <h3>Денсаулық сақтау</h3>
+                        <div class="subsection">
+                            <h4>Ауруханалар мен зертханалар</h4>
+                            <ul>
+                                <li>Пациенттің жағдайын <strong>нақты әрі тез</strong> бақылау (мысалы, ЭКГ, қан анализі)</li>
+                                <li><strong>Эпидемияның таралуын</strong> болжау (мысалы, COVID-19 кезінде)</li>
+                            </ul>
+                        </div>
+                        <div class="subsection">
+                            <h4>Big Data + Жасанды интеллект</h4>
+                            <ul>
+                                <li>Дерекке сүйене отырып, <strong>аурудың белгілерін автоматты анықтау</strong></li>
+                                <li>Медициналық құрылғылар деректі бұлтқа жібереді — дәрігер онлайн қарайды</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="methodology-section">
+                    <div class="section-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 7H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z" stroke="#7b2cbf" stroke-width="1.5"/>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="#7b2cbf" stroke-width="1.5"/>
+                            <path d="M12 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill="#7b2cbf"/>
+                        </svg>
+                    </div>
+                    <div class="section-content">
+                        <h3>Сауда және бизнес</h3>
+                        <div class="subsection">
+                            <h4>Kaspi / Amazon / OLX</h4>
+                            <ul>
+                                <li>Сатып алу тарихыңызға қарай <strong>жеке ұсыныс</strong> береді</li>
+                                <li>Тұтынушылардың <strong>мінез-құлқын болжайды</strong></li>
+                                <li>Жарнама мен акцияларды <strong>дербестендіреді</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="methodology-section">
+                    <div class="section-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4v16M4 12h16M7 7l10 10M7 17l10-10" stroke="#7b2cbf" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="12" cy="12" r="9" stroke="#7b2cbf" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <div class="section-content">
+                        <h3>Көлік және логистика</h3>
+                        <div class="subsection">
+                            <h4>Google Maps, Яндекс.Карталар</h4>
+                            <ul>
+                                <li>Автоматты түрде <strong>жол кептелісін көрсетеді</strong></li>
+                                <li>Басқа адамдардың GPS дерегін жинап, <strong>қозғалыс ағынын талдайды</strong></li>
+                            </ul>
+                        </div>
+                        <div class="subsection">
+                            <h4>Курьерлік қызметтер</h4>
+                            <ul>
+                                <li>Жеткізу бағытын <strong>ең тиімді</strong> жолмен жоспарлайды</li>
+                                <li>Уақыт пен жанармай үнемделеді</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="methodology-section">
+                    <div class="section-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 19V5a2 2 0 0 1 2-2h13.4a.6.6 0 0 1 .6.6v13.114" stroke="#7b2cbf" stroke-width="1.5"/>
+                            <path d="m10 8 2 2 4-4" stroke="#7b2cbf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 14h8M6 18h5" stroke="#7b2cbf" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M16.5 17.5c0 1.65 1.35 3 3 3s3-1.35 3-3-1.35-3-3-3-3 1.35-3 3z" stroke="#7b2cbf" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <div class="section-content">
+                        <h3>Білім беру</h3>
+                        <div class="subsection">
+                            <h4>Жүйелік талдау</h4>
+                            <ul>
+                                <li>Оқушының <strong>үлгерімін автоматты бақылау</strong> (электронды журнал, тест нәтижесі)</li>
+                                <li>Мұғалім <strong>қолдау қажет оқушыларды</strong> анықтай алады</li>
+                            </ul>
+                        </div>
+                        <div class="subsection">
+                            <h4>Бейімделген оқыту жүйелері</h4>
+                            <ul>
+                                <li>Оқушының деңгейіне қарай <strong>сабақ жоспары мен тапсырмалар өзгереді</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conclusion -->
+                <div class="methodology-conclusion">
+                    <h3>Қорытынды ой:</h3>
+                    <p>Big Data – бұл болашақтың құралы емес, <strong>бүгінгі күннің шындығы.</strong> Сен оны байқамасаң да, ол сенің жаныңда жұмыс істеп жатыр!</p>
+                    <button class="start-course-btn">Курсты бастау</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+   <script>
+    // Get modal elements
+const modal = document.getElementById("methodologyModal");
+const closeModalBtn = document.querySelector(".close-modal");
+const methodologyBtn = document.querySelector(".primary-btn");
+
+// Open modal when clicking the methodology button
+methodologyBtn.addEventListener("click", function() {
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden"; // Prevent scrolling behind modal
+});
+
+// Close modal when clicking the X button
+closeModalBtn.addEventListener("click", function() {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto"; // Enable scrolling again
+});
+
+// Close modal when clicking outside the modal content
+window.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+});
+
+// Start course button action
+document.querySelector(".start-course-btn").addEventListener("click", function() {
+    window.location.href = "index.html";
+});
+
+       // Toggle mobile menu
+       const hamburger = document.getElementById('hamburger');
+       const navMenu = document.getElementById('nav-menu');
+
+       hamburger.addEventListener('click', () => {
+           navMenu.classList.toggle('show');
+       });
+
+       // Sticky header
+       const header = document.getElementById('header');
+       window.addEventListener('scroll', () => {
+           if (window.scrollY > 50) {
+               header.classList.add('sticky');
+           } else {
+               header.classList.remove('sticky');
+           }
+       });
+
+       // Back to top button visibility
+       const backToTop = document.getElementById('back-to-top');
+       window.addEventListener('scroll', () => {
+           if (window.scrollY > 500) {
+               backToTop.classList.add('visible');
+           } else {
+               backToTop.classList.remove('visible');
+           }
+       });
+
+       // Back to top button click handler
+       backToTop.addEventListener('click', () => {
+           window.scrollTo({
+               top: 0,
+               behavior: 'smooth'
+           });
+       });
+
+       // Testimonials carousel
+       const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+       const testimonialDots = document.querySelectorAll('.testimonial-dot');
+       let currentSlide = 0;
+
+       function showSlide(index) {
+           testimonialSlides[currentSlide].classList.remove('active');
+           testimonialDots[currentSlide].classList.remove('active');
+           currentSlide = index;
+           testimonialSlides[currentSlide].classList.add('active');
+           testimonialDots[currentSlide].classList.add('active');
+       }
+
+       testimonialDots.forEach((dot, index) => {
+           dot.addEventListener('click', () => {
+               showSlide(index);
+           });
+       });
+
+       // Auto-advance testimonials
+       setInterval(() => {
+           const nextSlide = (currentSlide + 1) % testimonialSlides.length;
+           showSlide(nextSlide);
+       }, 5000);
+
+       // Animated entrance for elements when scrolling into view
+       const featureCards = document.querySelectorAll('.feature-card');
+       const newsCards = document.querySelectorAll('.news-card');
+
+       const animateOnScroll = (entries, observer) => {
+           entries.forEach(entry => {
+               if (entry.isIntersecting) {
+                   entry.target.style.opacity = '1';
+                   entry.target.style.transform = 'translateY(0)';
+                   observer.unobserve(entry.target);
+               }
+           });
+       };
+
+       const observer = new IntersectionObserver(animateOnScroll, {
+           root: null,
+           threshold: 0.1
+       });
+
+       // Initially hide feature and news cards
+       [...featureCards, ...newsCards].forEach(card => {
+           card.style.opacity = '0';
+           card.style.transform = 'translateY(20px)';
+           card.style.transition = 'all 0.6s ease';
+           observer.observe(card);
+       });
+
+       // Feedback button click handler
+       const feedbackBtn = document.getElementById('feedback-btn');
+       feedbackBtn.addEventListener('click', () => {
+           alert('Пікір беру формасы жасалуда. Егер ұсыныстарыңыз болса, info@edudata.kz поштасына жіберіңіз.');
+       });
+
+       // Contact form submit handler
+       const contactForm = document.querySelector('.contact-form');
+       contactForm.addEventListener('submit', (e) => {
+           e.preventDefault();
+           alert('Хабарламаңыз қабылданды. Тез арада сізге жауап береміз!');
+           contactForm.reset();
+       });
+   </script>
+</body>
+</html>
